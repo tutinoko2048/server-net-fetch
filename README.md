@@ -1,0 +1,53 @@
+# server-net-fetch
+
+A thin `fetch`-compatible wrapper for Minecraft Bedrock Dedicated Server Script API using `@minecraft/server-net`.
+
+## Install
+
+```bash
+bun install
+```
+
+## Usage
+
+```ts
+import { fetch, FetchHeaders } from 'server-net-fetch';
+
+const res = await fetch('https://example.com/api', {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+	},
+	body: JSON.stringify({ hello: 'world' }),
+	timeout: 10,
+});
+
+const text = await res.text();
+```
+
+## Polyfill-style usage
+
+For libraries that do not allow injecting a custom fetch, you can install a lightweight polyfill.
+
+```ts
+import { installFetchPolyfill } from 'server-net-fetch';
+
+installFetchPolyfill();
+```
+
+Or use a side-effect import:
+
+```ts
+import 'server-net-fetch/register';
+```
+
+## Limitations
+
+- Only methods supported by `@minecraft/server-net` (GET/POST/PUT/DELETE/HEAD)
+- `body` is not allowed for `GET` / `HEAD`
+- Browser-specific features like `AbortSignal` are not supported
+- Polyfill responses are minimal (status/ok/headers/url/text/json)
+
+---
+
+This project was created using `bun init` in bun v1.3.5. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
