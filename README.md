@@ -35,7 +35,7 @@ const text = await res.text();
 ```ts
 import { world } from '@minecraft/server';
 import { hc } from 'hono/client';
-import { fetch } from 'server-net-fetch';
+import { fetch } from '@tutinoko2048/server-net-fetch';
 
 const client = hc<AppType>('http://localhost:3000', { fetch });
 
@@ -50,7 +50,7 @@ world.afterEvents.worldLoad.subscribe(async () => {
 For libraries that do not allow injecting a custom fetch, you can install a lightweight polyfill.
 
 ```ts
-import { installFetchPolyfill } from 'server-net-fetch';
+import { installFetchPolyfill } from '@tutinoko2048/server-net-fetch';
 
 installFetchPolyfill();
 ```
@@ -58,7 +58,7 @@ installFetchPolyfill();
 Or use a side-effect import:
 
 ```ts
-import 'server-net-fetch/register';
+import '@tutinoko2048/server-net-fetch/register';
 ```
 
 ## Limitations
