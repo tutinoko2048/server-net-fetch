@@ -5,21 +5,27 @@ A thin `fetch`-compatible wrapper for Minecraft Bedrock Dedicated Server Script 
 ## Install
 
 ```bash
-bun install
+pnpm install @tutinoko2048/server-net-fetch
+```
+```bash
+bun install @tutinoko2048/server-net-fetch
+```
+```bash
+npm install @tutinoko2048/server-net-fetch
 ```
 
 ## Usage
 
 ```ts
-import { fetch, FetchHeaders } from 'server-net-fetch';
+import { fetch, FetchHeaders } from '@tutinoko2048/server-net-fetch';
 
 const res = await fetch('https://example.com/api', {
-	method: 'POST',
-	headers: {
-		'Content-Type': 'application/json',
-	},
-	body: JSON.stringify({ hello: 'world' }),
-	timeout: 10,
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ hello: 'world' }),
+  timeout: 10,
 });
 
 const text = await res.text();
@@ -27,6 +33,8 @@ const text = await res.text();
 
 - Can be used with [`hono`](https://hono.dev/)
 ```ts
+import { world } from '@minecraft/server';
+import { hc } from 'hono/client';
 import { fetch } from 'server-net-fetch';
 
 const client = hc<AppType>('http://localhost:3000', { fetch });
