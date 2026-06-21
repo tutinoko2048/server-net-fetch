@@ -1,6 +1,6 @@
 {
   "name": "@tutinoko2048/server-net-fetch",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "types": "dist/index.d.mts",
   "type": "module",
   "exports": {
@@ -25,5 +25,13 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tutinoko2048/server-net-fetch.git"
   }
 }
