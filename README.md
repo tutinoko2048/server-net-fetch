@@ -25,6 +25,18 @@ const res = await fetch('https://example.com/api', {
 const text = await res.text();
 ```
 
+- Can be used with [`hono`](https://hono.dev/)
+```ts
+import { fetch } from 'server-net-fetch';
+
+const client = hc<AppType>('http://localhost:3000', { fetch });
+
+world.afterEvents.worldLoad.subscribe(async () => {
+  const res = await client.index.$get();
+  console.log(await res.text());
+});
+```
+
 ## Polyfill-style usage
 
 For libraries that do not allow injecting a custom fetch, you can install a lightweight polyfill.

@@ -6,7 +6,11 @@ export default defineConfig({
     register: 'src/register.ts',
   },
   outDir: 'dist',
-  external: ['@minecraft/server-net'],
+  deps: {
+    onlyBundle: false,
+    neverBundle: ['@minecraft/server-net'],
+  },
   dts: true,
-  sourcemap: true,
+  exports: true,
+  // sourcemap: true,
 });

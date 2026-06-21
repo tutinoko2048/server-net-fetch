@@ -16,7 +16,7 @@ function toStandardHeaders(headers: FetchHeaders): Headers | FetchHeaders {
 	return headers;
 }
 
-export type FetchPolyfillOptions = {
+export type PolyfillOptions = {
 	force?: boolean;
 };
 
@@ -47,7 +47,7 @@ export async function fetchPolyfill(
 	return responseLike;
 }
 
-export function installFetchPolyfill(options: FetchPolyfillOptions = {}): void {
+export function installFetchPolyfill(options: PolyfillOptions = {}): void {
 	type FetchLike = (input: any, init?: RequestInit) => Promise<Response>;
 	const target = globalThis as unknown as { fetch?: FetchLike };
 	if (options.force || typeof target.fetch !== 'function') {

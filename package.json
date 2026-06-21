@@ -1,18 +1,12 @@
 {
-  "name": "server-net-fetch",
+  "name": "@tutinoko2048/server-net-fetch",
   "version": "0.1.0",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
-    },
-    "./register": {
-      "types": "./dist/register.d.mts",
-      "default": "./dist/register.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./register": "./dist/register.mjs",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "tsdown",
@@ -22,12 +16,12 @@
     "pretest": "bun run typecheck"
   },
   "devDependencies": {
-    "@bedrock-apis/env-types": "^1.0.0-beta.6",
-    "@minecraft/server-net": "1.0.0-beta.1.21.132-stable",
-    "@types/bun": "latest",
+    "@bedrock-apis/env-types": "^1.0.0-rc.1",
+    "@minecraft/server-net": "1.0.0-beta.1.26.31-stable",
+    "@types/bun": "^1.3.14",
     "hono": "latest",
     "openapi-fetch": "^0.15.0",
-    "tsdown": "^0.20.1"
+    "tsdown": "^0.22.3"
   },
   "peerDependencies": {
     "typescript": "^5"

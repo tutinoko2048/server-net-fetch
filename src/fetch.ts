@@ -58,6 +58,8 @@ export class FetchHeaders {
 		return Object.fromEntries(this.map.entries());
 	}
 }
+// @ts-expect-error
+globalThis.Headers = FetchHeaders;
 
 export class FetchResponse {
 	readonly status: number;
@@ -133,8 +135,10 @@ async function serverNetFetchInternal(input: any, init: FetchRequestInit = {}): 
 
 	const response = await http.request(request);
 	const responseHeaders = new FetchHeaders();
-	for (const header of response.headers ?? []) {
-		responseHeaders.set(header.key, String(header.value));
+	// for ofを使うとvalue is not iterable errorが出るため
+	for (let i = 0; i < response.headers.length; i++) {
+		const h = response.headers[i]!;
+		responseHeaders.set(h.key, h.value as string);
 	}
 
 	return new FetchResponse({
