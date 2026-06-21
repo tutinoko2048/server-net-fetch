@@ -31,7 +31,8 @@ jobs:
       - name: Build
         run: bun run build
       - name: Create GitHub Release
-        run: |
-          gh release create "$GITHUB_REF_NAME" --generate-notes
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Publish to npm (OIDC)
         run: npm publish --provenance --access public
