@@ -1,5 +1,5 @@
 {
-  "include": ["src"],
+  "include": ["src", "tests"],
   "compilerOptions": {
     // Environment setup & latest features
     "target": "ESNext",
@@ -25,6 +25,6 @@
     "noPropertyAccessFromIndexSignature": false,
 
     "noLib": true,
-    "types": ["@bedrock-apis/env-types"],
+    "types": ["@bedrock-apis/env-types", "bun"],
   }
 }
