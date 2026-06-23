@@ -1,6 +1,7 @@
-import { fetch as serverNetFetch, FetchHeaders, type FetchRequestInit } from './fetch';
+import { fetch as serverNetFetch, type FetchRequestInit } from './fetch';
+import type { Headers } from './polyfill/headers';
 
-function toStandardHeaders(headers: FetchHeaders): Headers | FetchHeaders {
+function toStandardHeaders(headers: Headers): Headers {
 	const HeadersCtor = (globalThis as { Headers?: typeof Headers }).Headers;
 	if (typeof HeadersCtor === 'function') {
 		const standard = new HeadersCtor();
@@ -27,7 +28,7 @@ export async function fetchPolyfill(
 	const response = (await serverNetFetch(input as string, init as FetchRequestInit)) as {
 		status: number;
 		ok: boolean;
-		headers: FetchHeaders;
+		headers: Headers;
 		url: string;
 		text: () => Promise<string>;
 		json: <T = unknown>() => Promise<T>;

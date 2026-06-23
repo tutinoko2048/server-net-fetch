@@ -1,13 +1,13 @@
 import { HttpHeader, HttpRequest, HttpRequestMethod, http } from '@minecraft/server-net';
+import { Headers, type HeadersInit } from './polyfill/headers';
+import { URLSearchParams } from './polyfill/url-search-params';
+
+// @ts-expect-error
+globalThis.Headers = Headers;
+// @ts-expect-error
+globalThis.URLSearchParams = URLSearchParams;
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD';
-
-export type HeadersInit =
-	| Record<string, string>
-	| Array<[string, string]>
-	| Array<string[]>
-	| Iterable<[string, string]>
-	| FetchHeaders;
 
 export interface FetchRequestInit {
 	method?: RequestMethod;
@@ -16,59 +16,15 @@ export interface FetchRequestInit {
 	timeout?: number;
 }
 
-export class FetchHeaders {
-	private readonly map = new Map<string, string>();
-
-	constructor(init?: HeadersInit) {
-		if (!init) return;
-		if (init instanceof FetchHeaders) {
-			for (const [key, value] of init.entries()) {
-				this.set(key, value);
-			}
-			return;
-		}
-		if (Array.isArray(init)) {
-			for (const [key, value] of init) {
-				this.set(key, value);
-			}
-			return;
-		}
-		for (const [key, value] of Object.entries(init)) {
-			this.set(key, value);
-		}
-	}
-
-	set(key: string, value: string): void {
-		this.map.set(key.toLowerCase(), value);
-	}
-
-	get(key: string): string | undefined {
-		return this.map.get(key.toLowerCase());
-	}
-
-	has(key: string): boolean {
-		return this.map.has(key.toLowerCase());
-	}
-
-	entries(): Array<[string, string]> {
-		return Array.from(this.map.entries());
-	}
-
-	toObject(): Record<string, string> {
-		return Object.fromEntries(this.map.entries());
-	}
-}
-// @ts-expect-error
-globalThis.Headers = FetchHeaders;
 
 export class FetchResponse {
 	readonly status: number;
 	readonly ok: boolean;
-	readonly headers: FetchHeaders;
+	readonly headers: Headers;
 	readonly url: string;
 	private readonly bodyText: string;
 
-	constructor(options: { status: number; headers: FetchHeaders; url: string; bodyText: string }) {
+	constructor(options: { status: number; headers: Headers; url: string; bodyText: string }) {
 		this.status = options.status;
 		this.ok = options.status >= 200 && options.status < 300;
 		this.headers = options.headers;
@@ -102,11 +58,11 @@ function toRequestMethod(method?: string): HttpRequestMethod {
 	return mapped;
 }
 
-function toHeaders(init?: HeadersInit): FetchHeaders {
-	return init instanceof FetchHeaders ? init : new FetchHeaders(init);
+function toHeaders(init?: HeadersInit): Headers {
+	return init instanceof Headers ? init : new Headers(init);
 }
 
-function toHttpHeaders(headers: FetchHeaders): HttpHeader[] {
+function toHttpHeaders(headers: Headers): HttpHeader[] {
 	return headers.entries().map(([key, value]) => new HttpHeader(key, value));
 }
 
@@ -134,7 +90,7 @@ async function serverNetFetchInternal(input: any, init: FetchRequestInit = {}): 
 	}
 
 	const response = await http.request(request);
-	const responseHeaders = new FetchHeaders();
+	const responseHeaders = new Headers();
 	// for ofを使うとvalue is not iterable errorが出るため
 	for (let i = 0; i < response.headers.length; i++) {
 		const h = response.headers[i]!;

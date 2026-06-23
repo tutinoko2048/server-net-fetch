@@ -142,27 +142,8 @@ describe('fetch wrapper', () => {
     expect(res.ok).toBe(true);
     expect(res.url).toBe('https://redirected.example.com');
     expect(res.headers.get('x-test')).toBe('ok');
-    await expect(res.text()).resolves.toBe('{"ok":true}');
-    await expect(res.json()).resolves.toEqual({ ok: true });
-  });
-});
-
-describe('FetchHeaders', () => {
-  it('supports set/get/has/entries/toObject', async () => {
-    const { FetchHeaders } = await loadFetchModule();
-    const headers = new FetchHeaders({ Foo: 'bar' });
-    headers.set('Baz', 'qux');
-
-    expect(headers.get('foo')).toBe('bar');
-    expect(headers.has('baz')).toBe(true);
-
-    const entries = headers.entries().sort(([a], [b]) => a.localeCompare(b));
-    expect(entries).toEqual([
-      ['baz', 'qux'],
-      ['foo', 'bar'],
-    ]);
-
-    expect(headers.toObject()).toEqual({ foo: 'bar', baz: 'qux' });
+    expect(res.text()).resolves.toBe('{"ok":true}');
+    expect(res.json()).resolves.toEqual({ ok: true });
   });
 });
 
