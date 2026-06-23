@@ -108,14 +108,13 @@ async function serverNetFetchInternal(input: any, init: FetchRequestInit = {}): 
 export async function fetch(url: string, init?: FetchRequestInit): Promise<FetchResponse>;
 export async function fetch(
 	input: any,
-	requestInit?: RequestInit,
+	requestInit?: globalThis.RequestInit,
 	_env?: unknown,
 	_executionCtx?: unknown
-): Promise<Response>;
+): Promise<globalThis.Response>;
 export async function fetch(
 	input: any,
-	init?: FetchRequestInit | RequestInit
-): Promise<FetchResponse | Response> {
-	const resolvedInit = (init ?? {}) as FetchRequestInit;
-	return serverNetFetchInternal(input, resolvedInit);
+	init?: FetchRequestInit | globalThis.RequestInit
+): Promise<FetchResponse | globalThis.Response> {
+	return serverNetFetchInternal(input, init as FetchRequestInit) as any;
 }
