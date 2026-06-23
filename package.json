@@ -1,6 +1,6 @@
 {
   "name": "@tutinoko2048/server-net-fetch",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "types": "dist/index.d.mts",
   "type": "module",
   "exports": {
@@ -19,7 +19,7 @@
     "@bedrock-apis/env-types": "^1.0.0-rc.1",
     "@minecraft/server-net": "1.0.0-beta.1.26.31-stable",
     "@types/bun": "^1.3.14",
-    "hono": "latest",
+    "hono": "^4.12.27",
     "openapi-fetch": "^0.15.0",
     "tsdown": "^0.22.3"
   },
