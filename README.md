@@ -61,6 +61,30 @@ Or use a side-effect import:
 import '@tutinoko2048/server-net-fetch/register';
 ```
 
+### Global polyfills
+
+Importing this package also sets the following globals, which the Script API does not provide:
+
+- `Headers`
+- `URLSearchParams`
+- `URL` (only if `globalThis.URL` is not already defined)
+
+`URL` is a minimal implementation for `http(s)://host[:port]/path?query#hash` style URLs.
+
+- Parses absolute URLs and resolves relative URLs against a base (`/abs`, `rel`, `./rel`, `../rel`, `?q`, `#h`, `//host/path`)
+- Throws `TypeError` for invalid URLs; `URL.canParse()` is available
+- Lowercases the scheme and hostname, omits default ports (http/ws: 80, https/wss: 443, ftp: 21), and resolves `.` / `..` path segments
+- Percent-encodes spaces and non-ASCII characters in the path, query and fragment (existing `%XX` sequences are kept as is)
+- `searchParams` stays in sync with `search` / `href` in both directions
+
+Not supported:
+
+- IDN / punycode: non-ASCII hostnames (e.g. `http://日本.jp/`) throw `TypeError`
+- IPv6 normalization (bracketed hosts like `[::1]` are passed through as is)
+- IPv4 shorthand normalization (e.g. `0x7f.1`)
+- `file:` scheme specifics such as Windows drive letters
+- `origin` of non-special schemes such as `blob:` (always `'null'`)
+
 ## Limitations
 
 - Only methods supported by `@minecraft/server-net` (GET/POST/PUT/DELETE/HEAD)

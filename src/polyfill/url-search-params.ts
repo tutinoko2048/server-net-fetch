@@ -11,6 +11,14 @@ export type URLSearchParamsInit =
 export class URLSearchParams {
   private _list: [string, string][] = [];
 
+  /** @internal Called after every mutation. Used by URL to keep `search` in sync. */
+  _onUpdate?: () => void;
+
+  /** @internal Replaces the list without calling `_onUpdate`. */
+  _replaceList(list: [string, string][]): void {
+    this._list = list;
+  }
+
   constructor(init?: URLSearchParamsInit) {
     if (init != null) {
       if (typeof init === "string") {
@@ -71,6 +79,7 @@ export class URLSearchParams {
    */
   append(name: string, value: string): void {
     this._list.push([name, String(value)]);
+    this._onUpdate?.();
   }
 
   /**
@@ -86,6 +95,7 @@ export class URLSearchParams {
     } else {
       this._list = this._list.filter((pair) => pair[0] !== name);
     }
+    this._onUpdate?.();
   }
 
   /**
@@ -137,6 +147,7 @@ export class URLSearchParams {
       newList.push([name, v]);
     }
     this._list = newList;
+    this._onUpdate?.();
   }
 
   /**
@@ -148,6 +159,7 @@ export class URLSearchParams {
       if (a[0] === b[0]) return 0;
       return a[0] < b[0] ? -1 : 1;
     });
+    this._onUpdate?.();
   }
 
   /**

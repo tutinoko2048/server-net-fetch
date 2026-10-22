@@ -1,11 +1,18 @@
 import { HttpHeader, HttpRequest, HttpRequestMethod, http } from '@minecraft/server-net';
 import { Headers, type HeadersInit } from './polyfill/headers';
 import { URLSearchParams } from './polyfill/url-search-params';
+import { URL } from './polyfill/url';
+
+export { URL };
 
 // @ts-expect-error
 globalThis.Headers = Headers;
 // @ts-expect-error
 globalThis.URLSearchParams = URLSearchParams;
+// Prefer a native URL if the runtime provides one
+if (typeof (globalThis as any).URL !== 'function') {
+	(globalThis as any).URL = URL;
+}
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD';
 
