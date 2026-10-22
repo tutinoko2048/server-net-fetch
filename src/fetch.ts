@@ -3,7 +3,11 @@ import { Headers, type HeadersInit } from './polyfill/headers';
 import { URLSearchParams } from './polyfill/url-search-params';
 import { URL } from './polyfill/url';
 
-export { URL };
+export { Headers, URLSearchParams, URL };
+export type { HeadersInit };
+export type { URLSearchParamsInit } from './polyfill/url-search-params';
+/** @deprecated Use `Headers` instead. */
+export { Headers as FetchHeaders };
 
 // @ts-expect-error
 globalThis.Headers = Headers;
